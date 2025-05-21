@@ -1,38 +1,39 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "TimerManager.h"
+#include "InputActionValue.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "CameraOrbitPawn.generated.h"
 
+class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
+class UInputMappingContext;
 
 UCLASS()
 class CIRCLESIEGE_TD_API ACameraOrbitPawn : public APawn
 {
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this pawn's properties
-	ACameraOrbitPawn();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	
+public:	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 	TObjectPtr<UCameraComponent> Camera;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 	TObjectPtr<USpringArmComponent> SpringArm;
 	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Camera")
+	float RotationSpeed = 60.f;
 	
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	TObjectPtr<UInputAction> TurnCameraAction;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	ACameraOrbitPawn();
+protected:	
+	virtual void BeginPlay() override;	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	void RotateCamera(const FInputActionValue& Value);	
 };
