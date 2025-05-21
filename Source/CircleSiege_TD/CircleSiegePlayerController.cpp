@@ -76,8 +76,8 @@ void ACircleSiegePlayerController::TogglePauseMenu()
 			PauseMenuInstance->RemoveFromParent();
 			PauseMenuInstance = nullptr;
 		}
-		SetInputMode(FInputModeGameOnly());
-		bShowMouseCursor = false;
+		SetInputMode(FInputModeGameAndUI());
+		bShowMouseCursor = true;
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 		ActivateGameplayMapping();
 		bIsPauseMenuVisible = false;
@@ -104,6 +104,7 @@ void ACircleSiegePlayerController::TogglePauseMenu()
 
 void ACircleSiegePlayerController::OnMoveBuilderInput()
 {
+	if (bIsPauseMenuVisible)return;
 	FHitResult Hit;
 	if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
 	{
